@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		#tool_tips {
+			position: fixed;
+			top: 0px;
+			left: 0;
+			right: 0;
+			z-index: 100;
+			margin: 0 auto;
+			padding: 10px 15px;
+			width: 300px;
+			border-radius: 10px;
+			opacity: 0;
+		}
+		.tool_tips_success{
+			background-color: #f0f9eb;
+			color: #67c23a;
+		}
+		.tool_tips_warning{
+			background-color: #fef0f0;
+			color:#f56c6c;
+		}
+	</style>
+
+	<body>
+	<!--<div id="tool_tips"></div>-->
+	</body>
+	<script type="text/javascript" src="https://cdn.staticfile.org/jquery/2.0.3/jquery.min.js" ></script>
+	<script>
+		function ToolTips(type, bol,) {
+		    var dom = $('<div id="tool_tips"></div>');
+		    $("body").append(dom);
+			this.id = "tool_tips";
+			
+			/**
+			 * html  提示内容
+			 * type  类型
+			 * bol   是否自动关闭
+			 * fadeOutTime   多长时间后自动关闭
+			 * */
+			this.open = function(html,type,bol=true,fadeOutTime) {
+				var that = $("#"+this.id);
+				this.bol = bol;
+				console.log(this.bol);
+			    this.type = type || 'success';
+			    console.log(this.type);
+			    this.fadeOutTime = fadeOutTime || 2000;
+				that.html(html);
+				if(this.type == 'success'){
+					that.addClass('tool_tips_success');
+				}else{
+					that.addClass('tool_tips_warning');
+				}
+                that.animate({
+                	top:30,
+                	opacity: 1
+                },600)
+				if(this.bol){
+					setTimeout(function(){
+						that.animate({
+		                	top:0,
+		                	opacity:0
+		                },600)
+					},this.fadeOutTime)
+				}
+			};
+			this.close = function(){
+				$("#"+this.id).animate({
+                	top:0,
+                	opacity:0
+                },600)
+			}
+			
+		}
+		var tipsObj = new ToolTips();
+		tipsObj.open('提示内容','warning');
+	</script>
+
+</html>
